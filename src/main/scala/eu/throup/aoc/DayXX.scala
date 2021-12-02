@@ -1,4 +1,4 @@
-package eu.throup.aoc.year2021
+package eu.throup.aoc
 
 trait DayXX {
   def part1(input: String): Any

@@ -1,6 +1,6 @@
 package eu.throup.aoc.year2021.day03
 
-import eu.throup.aoc.year2021.DayXX
+import eu.throup.aoc.DayXX
 
 import scala.annotation.tailrec
 

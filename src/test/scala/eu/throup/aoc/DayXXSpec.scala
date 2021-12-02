@@ -1,4 +1,4 @@
-package eu.throup.aoc.year2021
+package eu.throup.aoc
 
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers

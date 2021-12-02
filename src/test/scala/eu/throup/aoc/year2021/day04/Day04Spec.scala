@@ -1,6 +1,6 @@
 package eu.throup.aoc.year2021.day04
 
-import eu.throup.aoc.year2021.DayXXSpec
+import eu.throup.aoc.DayXXSpec
 
 class Day04Spec extends DayXXSpec {
   override type returnType = Long

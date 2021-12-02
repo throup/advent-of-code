@@ -1,14 +1,15 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day01
 
-import com.typesafe.scalalogging.Logger
+import eu.throup.aoc.DayXX
 
 import scala.util.control.Breaks.{break, breakable}
 
-package object day1 {
+object Day01 extends DayXX {
   private val Log = Logger(this.getClass)
 
-  def solution(input: Seq[Int]): Int = {
-    val sorted: Seq[Int] = input.sortWith(_ < _)
+  override def part1(input: String) = {
+    val parsed = parseInput(input)
+    val sorted: Seq[Int] = parsed.sortWith(_ < _)
 
     var frontPointer = 0
     var backPointer = sorted.length - 1
@@ -22,8 +23,9 @@ package object day1 {
     sorted(frontPointer) * sorted(backPointer)
   }
 
-  def solution3(input: Seq[Int]): Int = {
-    val sorted: Seq[Int] = input.sortWith(_ < _)
+  override def part2(input: String) = {
+    val parsed = parseInput(input)
+    val sorted: Seq[Int] = parsed.sortWith(_ < _)
 
     var frontPointer = 0
     var midPointer = 1
@@ -32,13 +34,25 @@ package object day1 {
     def isValid(p: Int) = {
       p >= 0 && p < sorted.length
     }
-    while (isValid(frontPointer) && isValid(midPointer) && isValid(backPointer) && (sorted(frontPointer) + sorted(midPointer) + sorted(backPointer) != 2020)) {
+    while (
+      isValid(frontPointer) && isValid(midPointer) && isValid(
+        backPointer
+      ) && (sorted(frontPointer) + sorted(midPointer) + sorted(
+        backPointer
+      ) != 2020)
+    ) {
       breakable {
         for (i <- (frontPointer + 1) until sorted.length - 2) {
           for (j <- (frontPointer + 2) until sorted.length - 1) {
             backPointer = j
             midPointer = i
-            if (isValid(frontPointer) && isValid(midPointer) && isValid(backPointer) && (sorted(frontPointer) + sorted(midPointer) + sorted(backPointer) == 2020))
+            if (
+              isValid(frontPointer) && isValid(midPointer) && isValid(
+                backPointer
+              ) && (sorted(frontPointer) + sorted(midPointer) + sorted(
+                backPointer
+              ) == 2020)
+            )
               break
           }
         }
@@ -50,4 +64,9 @@ package object day1 {
     Log.info("backPointer = {} => {}", backPointer, sorted(backPointer))
     sorted(frontPointer) * sorted(midPointer) * sorted(backPointer)
   }
+
+  def parseInput(input: String): Seq[Int] =
+    input.trim
+      .split("\n")
+      .map(_.toInt)
 }

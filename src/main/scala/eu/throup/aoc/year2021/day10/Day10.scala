@@ -1,6 +1,6 @@
 package eu.throup.aoc.year2021.day10
 
-import eu.throup.aoc.year2021.DayXX
+import eu.throup.aoc.DayXX
 import eu.throup.aoc.year2021.day10.CommandChar.{isOpener, partner}
 import eu.throup.aoc.year2021.day10.Walker.{
   Complete,

@@ -1,6 +1,6 @@
 package eu.throup.aoc.year2021.day08
 
-import eu.throup.aoc.year2021.DayXX
+import eu.throup.aoc.DayXX
 
 type DigInput = Set[Char]
 

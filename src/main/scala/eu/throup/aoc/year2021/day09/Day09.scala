@@ -1,6 +1,6 @@
 package eu.throup.aoc.year2021.day09
 
-import eu.throup.aoc.year2021.DayXX
+import eu.throup.aoc.DayXX
 
 object Day09 extends DayXX {
   override def part1(input: String) = {
