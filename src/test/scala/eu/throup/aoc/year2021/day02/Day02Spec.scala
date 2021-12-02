@@ -2,8 +2,6 @@ package eu.throup.aoc.year2021.day02
 
 import eu.throup.aoc.year2021.DayXXSpec
 
-import scala.io.Source
-
 class Day02Spec extends DayXXSpec {
   override type returnType = Long
   override val testObject = Day02

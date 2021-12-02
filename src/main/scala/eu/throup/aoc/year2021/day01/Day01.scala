@@ -2,8 +2,6 @@ package eu.throup.aoc.year2021.day01
 
 import eu.throup.aoc.year2021.DayXX
 
-import scala.runtime.Tuple2Zipped
-
 object Day01 extends DayXX {
   override def part1(input: String) =
     countIncreasingTerms(
@@ -23,17 +21,13 @@ object Day01 extends DayXX {
       .map(_.toLong)
 
   def countIncreasingTerms(working: Seq[Long]) =
-    (working.dropRight(1) zip working.drop(1)).filter { case (a, b) =>
-      a < b
-    }.size
+    (working.dropRight(1) zip working.drop(1))
+      .filter(_ < _)
+      .size
 
   def movingSum(parts: Seq[Long]) =
-    (
-      parts.dropRight(2),
-      parts.drop(1).dropRight(1),
-      parts.drop(2)
-    ).zipped
-      .map { case (a, b, c) =>
-        a + b + c
-      }
+    parts
+      .sliding(3)
+      .map(_.sum)
+      .toSeq
 }

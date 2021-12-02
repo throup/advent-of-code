@@ -2,8 +2,6 @@ package eu.throup.aoc.year2021.day02
 
 import eu.throup.aoc.year2021.DayXX
 
-import scala.runtime.Tuple2Zipped
-
 object Day02 extends DayXX {
   override def part1(input: String) = {
     val parsed = parseInput(input)
