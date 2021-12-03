@@ -1,4 +1,4 @@
-package eu.throup.advent2020.day3
+package eu.throup.aoc.year2020.day03
 
 class SkiSlope(private val input: String) {
   private val lines: Array[String] = input.split("\n")
@@ -10,9 +10,8 @@ class SkiSlope(private val input: String) {
     line.charAt(x % width)
   }
 
-  def trees(x: Int, y: Int): Int = {
+  def trees(x: Int, y: Int): Long =
     (0 until (height / y))
       .map(i => coord(i * x, i * y))
-      .count(c => c == '#')
-  }
+      .count(_ == '#')
 }
