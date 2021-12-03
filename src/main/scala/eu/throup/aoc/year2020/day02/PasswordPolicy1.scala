@@ -6,16 +6,19 @@ class PasswordPolicy1 extends PasswordPolicy {
   val restrictions: mutable.Map[Char, Seq[Int]] =
     scala.collection.mutable.Map[Char, Seq[Int]]()
 
-  def restriction(character: Char, min: Int, max: Int): Unit = {
+  override def restriction(character: Char, min: Int, max: Int): Unit = {
     restrictions(character) = min to max
   }
   def test(password: Password): Boolean = {
-    restrictions.forall((e) => {
-      val char: Char = e._1
-      val range: Seq[Int] = e._2
-
-      val d: Int = password.count(char)
-      range.contains(d)
-    })
+    restrictions.forall {
+      case (char: Char, range: Seq[Int]) => {
+        val d: Int = password.count(char)
+        range.contains(d)
+      }
+    }
   }
+}
+
+object PasswordPolicy1 {
+  def instance(): PasswordPolicy1 = new PasswordPolicy1
 }
