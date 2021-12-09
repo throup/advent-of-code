@@ -2,49 +2,50 @@ package eu.throup.aoc.year2020.day15
 
 import eu.throup.aoc.DayXX
 
+import scala.annotation.tailrec
+
 object Day15 extends DayXX {
-  override def part1(input: String): Long = {
-    doTheWork(input, 2020)
-  }
+  override def part1(input: String): Int =
+    playTheGame(2020, parseInput(input))
 
-  override def part2(input: String): Long = {
-    doTheWork(input, 30000000)
-  }
+  override def part2(input: String): Int =
+    playTheGame(30000000, parseInput(input))
 
-  def doTheWork(input: String, target: Long): Long = {
-    // Extract the input string into a sequence of numbers.
-    val start = input.split(",").map(_.toLong)
+  def playTheGame(target: Int, start: Array[Int]): Int =
+    takeATurn(
+      start.indices.map(i => start(i) -> ((i + 1), (i + 1))).toMap,
+      start(start.length - 1),
+      start.length + 1,
+      target
+    )
 
-    // Prepare the trackers!
-    // tracker1 := keys are the numbers from the sequence
-    //             values are the step number when we last saw it
-    // tracker2 := keys are the numbers from the sequence
-    //             values are the step number when we last saw it before the step in tracker1
-    var tracker1: scala.collection.mutable.Map[Long, Long] =
-      scala.collection.mutable.Map.empty
-    var tracker2: scala.collection.mutable.Map[Long, Long] =
-      scala.collection.mutable.Map.empty
-    start.indices.foreach(i => tracker1 += start(i) -> (i + 1).toLong)
+  @tailrec
+  def takeATurn(
+      tracker: Map[Int, (Int, Int)],
+      last: Int,
+      turn: Int,
+      target: Int
+  ): Int =
+    if (target - turn < 0) last
+    else {
+      val newLast = tracker(last)._1 - tracker(last)._2
 
-    // Seed this value for the loop.
-    // Tracks the last number we saw in the sequence.
-    var last = start(start.length - 1)
+      val newEntry: (Int, Int) =
+        tracker
+          .get(newLast)
+          .map { case (o, _) => (turn, o) }
+          .getOrElse((turn, turn))
 
-    for (i: Long <- (start.length + 1).toLong to target) {
-      // Determine the next "last" number based on the previous two occasions we saw the
-      // current "last" number.
-      // tracker2.getOrElse is to account for this being our first encounter with the number.
-      last = tracker1(last) - tracker2.getOrElse(last, tracker1(last))
-
-      // Shift any existing record from tracker1 into tracker2...
-      if (tracker1.contains(last)) {
-        tracker2 += (last -> tracker1(last))
-      }
-      // ... and place a new record in tracker1
-      tracker1 += (last -> i)
+      takeATurn(
+        tracker + (newLast -> newEntry),
+        newLast,
+        turn + 1,
+        target
+      )
     }
 
-    // Return the current value of "last" -- this is our target number.
-    last
-  }
+  def parseInput(input: String): Array[Int] =
+    input
+      .split(",")
+      .map(_.toInt)
 }
