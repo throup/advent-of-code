@@ -1,4 +1,4 @@
-package eu.throup.advent2020.day11
+package eu.throup.aoc.year2020.day11
 
 import scala.util.control.Breaks.{break, breakable}
 
@@ -56,7 +56,8 @@ object Seat {
 
 abstract class SeatingPlan(private val input: String) {
   var rows: Array[Array[Seat]] =
-    input.split("\n")
+    input
+      .split("\n")
       .map(_.split("").map(Seat(_)))
 
   def seatAt(x: Int, y: Int): Seat = {
@@ -84,15 +85,22 @@ abstract class SeatingPlan(private val input: String) {
 
 class SeatingPlanV1(str: String) extends SeatingPlan(str) {
   override def shuffle(): Boolean = {
-    val newRows: Array[Array[Seat]] = rows.indices.map(_ => rows.head.indices.map(_ => Seat(".")).toArray).toArray
+    val newRows: Array[Array[Seat]] = rows.indices
+      .map(_ => rows.head.indices.map(_ => Seat(".")).toArray)
+      .toArray
     var changed = false
     for (i <- rows.indices) {
       for (j <- rows.head.indices) {
         val mySeat = seatAt(i, j)
         val adjacent: Set[Seat] = Set(
-          seatAt(i - 1, j - 1), seatAt(i, j - 1), seatAt(i + 1, j - 1),
-          seatAt(i - 1, j),                       seatAt(i + 1, j),
-          seatAt(i - 1, j + 1), seatAt(i, j + 1), seatAt(i + 1, j + 1),
+          seatAt(i - 1, j - 1),
+          seatAt(i, j - 1),
+          seatAt(i + 1, j - 1),
+          seatAt(i - 1, j),
+          seatAt(i + 1, j),
+          seatAt(i - 1, j + 1),
+          seatAt(i, j + 1),
+          seatAt(i + 1, j + 1)
         )
         val seat = mySeat.shuffle(adjacent, 4)
         changed = changed || (seat != mySeat)
@@ -106,15 +114,22 @@ class SeatingPlanV1(str: String) extends SeatingPlan(str) {
 
 class SeatingPlanV2(str: String) extends SeatingPlan(str) {
   override def shuffle(): Boolean = {
-    val newRows: Array[Array[Seat]] = rows.indices.map(_ => rows.head.indices.map(_ => Seat(".")).toArray).toArray
+    val newRows: Array[Array[Seat]] = rows.indices
+      .map(_ => rows.head.indices.map(_ => Seat(".")).toArray)
+      .toArray
     var changed = false
     for (i <- rows.indices) {
       for (j <- rows.head.indices) {
         val mySeat = seatAt(i, j)
         val adjacent: Set[Seat] = Set(
-          seatFrom(i, j, -1, -1), seatFrom(i, j, 0, -1), seatFrom(i, j, 1, -1),
-          seatFrom(i, j, -1,  0),                                    seatFrom(i, j, 1,   0),
-          seatFrom(i, j, -1,  1), seatFrom(i, j, 0,  1), seatFrom(i, j, 1,  1),
+          seatFrom(i, j, -1, -1),
+          seatFrom(i, j, 0, -1),
+          seatFrom(i, j, 1, -1),
+          seatFrom(i, j, -1, 0),
+          seatFrom(i, j, 1, 0),
+          seatFrom(i, j, -1, 1),
+          seatFrom(i, j, 0, 1),
+          seatFrom(i, j, 1, 1)
         )
         val seat = mySeat.shuffle(adjacent, 5)
         changed = changed || (seat != mySeat)
@@ -129,7 +144,7 @@ class SeatingPlanV2(str: String) extends SeatingPlan(str) {
     var tar: Seat = Seat(".")
     var i = x + dirX
     var j = y + dirY
-    breakable (
+    breakable(
       while (rows.indices.contains(i) && rows(0).indices.contains(j)) {
         val newS = seatAt(i, j)
         if (newS.exists()) {
