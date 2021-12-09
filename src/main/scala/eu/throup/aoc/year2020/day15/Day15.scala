@@ -1,17 +1,15 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day15
 
-package object day15 {
-  def part1(input: String): Long = {
+import eu.throup.aoc.DayXX
+
+object Day15 extends DayXX {
+  override def part1(input: String): Long = {
     doTheWork(input, 2020)
   }
 
-  // ---
-
-  def part2(input: String): Long = {
+  override def part2(input: String): Long = {
     doTheWork(input, 30000000)
   }
-
-  // ---
 
   def doTheWork(input: String, target: Long): Long = {
     // Extract the input string into a sequence of numbers.
@@ -22,8 +20,10 @@ package object day15 {
     //             values are the step number when we last saw it
     // tracker2 := keys are the numbers from the sequence
     //             values are the step number when we last saw it before the step in tracker1
-    var tracker1: scala.collection.mutable.Map[Long, Long] = scala.collection.mutable.Map.empty
-    var tracker2: scala.collection.mutable.Map[Long, Long] = scala.collection.mutable.Map.empty
+    var tracker1: scala.collection.mutable.Map[Long, Long] =
+      scala.collection.mutable.Map.empty
+    var tracker2: scala.collection.mutable.Map[Long, Long] =
+      scala.collection.mutable.Map.empty
     start.indices.foreach(i => tracker1 += start(i) -> (i + 1).toLong)
 
     // Seed this value for the loop.
