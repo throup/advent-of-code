@@ -1,7 +1,9 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day13
 
-package object day13 {
-  def part1(input: String) = {
+import eu.throup.aoc.DayXX
+
+object Day13 extends DayXX {
+  override def part1(input: String): BigInt = {
     val (start, ids) = parseInput(input)
 
     val (id, time) = ids
@@ -13,15 +15,13 @@ package object day13 {
     (time - start) * id
   }
 
-  private def nextBusFromTime(id: BigInt, time: BigInt) : BigInt = {
+  private def nextBusFromTime(id: BigInt, time: BigInt): BigInt = {
     val d = time / id
     val last = d * id
     if (d == last) last else last + id
   }
 
-  // ---
-
-  def part2(input: String) = {
+  override def part2(input: String): BigInt = {
     val (_, ids) = parseInput(input)
 
     val indexedIds = ids.indices
@@ -31,20 +31,31 @@ package object day13 {
       .mapValues(_.get)
 
     var workingSet = indexedIds.toList.map(s => (s._1, s._2))
-    while(workingSet.length > 1) {
+    while (workingSet.length > 1) {
       val firstTwo = workingSet.slice(0, 2)
       val product = firstTwo.map(_._2).product
-      val meetingPoint = chineseRemainder(-firstTwo(0)._1, firstTwo(0)._2, -firstTwo(1)._1, firstTwo(1)._2)
+      val meetingPoint = chineseRemainder(
+        -firstTwo(0)._1,
+        firstTwo(0)._2,
+        -firstTwo(1)._1,
+        firstTwo(1)._2
+      )
 
-      workingSet = (List((meetingPoint, product)) ++ workingSet.slice(2, workingSet.length))
+      workingSet = (List((meetingPoint, product)) ++ workingSet.slice(
+        2,
+        workingSet.length
+      ))
     }
 
     workingSet.head._2 - workingSet.head._1
   }
 
-  // ---
-
-  def chineseRemainder(val1: BigInt, mod1: BigInt, val2: BigInt, mod2: BigInt): BigInt = {
+  def chineseRemainder(
+      val1: BigInt,
+      mod1: BigInt,
+      val2: BigInt,
+      mod2: BigInt
+  ): BigInt = {
     val ans = mod1 * (val2 - val1) * modInverse(mod1, mod2) + val1
     val prod = mod1 * mod2
 
@@ -71,16 +82,15 @@ package object day13 {
     }
   }
 
-  /**
-   * This is STOLEN CODE :-(
-   * We're into real number theory territory now, and this is a function to return
-   * the inverse of a number within a modulo space. I could (and did) implement a
-   * version of my own which just wasn't performant enough, so this implementation
-   * of the function has been shamelessly pilfoured from the internet. However, I
-   * can still sleep at night because I had to work out for myself how to actually
-   * apply it to the problem at hand.
-   */
-  def modInverse( inA: BigInt,  inM: BigInt): BigInt = {
+  /** This is STOLEN CODE :-(
+    * We're into real number theory territory now, and this is a function to return
+    * the inverse of a number within a modulo space. I could (and did) implement a
+    * version of my own which just wasn't performant enough, so this implementation
+    * of the function has been shamelessly pilfoured from the internet. However, I
+    * can still sleep at night because I had to work out for myself how to actually
+    * apply it to the problem at hand.
+    */
+  def modInverse(inA: BigInt, inM: BigInt): BigInt = {
     var m = inM
     var a = inA
     var m0: BigInt = m
