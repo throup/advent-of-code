@@ -1,4 +1,4 @@
-package eu.throup.advent2020.day12
+package eu.throup.aoc.year2020.day12
 
 import eu.throup.measures.Angle
 import eu.throup.measures.Vector
@@ -32,8 +32,8 @@ class StandardShip extends Ship {
         case ("S", dist) => y -= dist
         case ("E", dist) => x += dist
         case ("W", dist) => x -= dist
-        case ("L", ang) => dir += Angle.degrees(ang)
-        case ("R", ang) => dir -= Angle.degrees(ang)
+        case ("L", ang)  => dir += Angle.degrees(ang)
+        case ("R", ang)  => dir -= Angle.degrees(ang)
         case ("F", dist) => {
           x += dir.cos * dist
           y += dir.sin * dist
