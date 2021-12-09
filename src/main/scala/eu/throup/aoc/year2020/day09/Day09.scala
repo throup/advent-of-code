@@ -1,19 +1,21 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day09
 
-import scala.language.postfixOps
+import eu.throup.aoc.DayXX
+
 import scala.util.control.Breaks.{break, breakable}
-import scala.util.matching.Regex
 
-package object day9 {
-  def part1(input: String, threshold: Int): Long = {
-    val ints = mapToInt(input)
+object Day09 extends DayXX {
+  override def part1(input: String): Long = {
+    val (threshold, rest) = splitInput(input)
+    val ints = mapToInt(rest)
     keyFromInts(ints, threshold)
   }
 
   // ---
 
-  def part2(input: String, threshold: Int): Long = {
-    val ints = mapToInt(input)
+  override def part2(input: String): Long = {
+    val (threshold, rest) = splitInput(input)
+    val ints = mapToInt(rest)
     val key = keyFromInts(ints, threshold)
 
     var sol: Seq[Long] = Seq.empty
@@ -47,7 +49,13 @@ package object day9 {
   }
 
   private def mapToInt(input: String) = {
-    input.split("\n")
+    input
+      .split("\n")
       .map(_.toLong)
+  }
+
+  def splitInput(input: String): (Int, String) = {
+    val splits = input.split(":")
+    (splits(0).toInt, splits(1))
   }
 }
