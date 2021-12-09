@@ -1,18 +1,16 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day10
 
-import scala.language.postfixOps
+import eu.throup.aoc.DayXX
 
-package object day10 {
-  def part1(input: String): Long = {
+object Day10 extends DayXX {
+  override def part1(input: String): Long = {
     val groups = differences(extractEnhancedInts(input))
       .groupBy(i => i)
 
     groups(3).length * groups(1).length
   }
 
-  // ---
-
-  def part2(input: String): Long = {
+  override def part2(input: String): Long = {
     val ints = extractEnhancedInts(input)
 
     var legs: Map[Long, Long] = Map()
@@ -29,8 +27,6 @@ package object day10 {
     }
     myLegs(0)
   }
-
-  // ---
 
   private def extractInts(input: String): Seq[Long] = {
     input.split("\n").map(_.toLong)
