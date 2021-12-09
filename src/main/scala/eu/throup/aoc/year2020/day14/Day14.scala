@@ -1,14 +1,14 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day14
 
-import java.lang.Long.parseLong
-import scala.language.postfixOps
+import eu.throup.aoc.DayXX
+
 import scala.util.matching.Regex
 
-package object day14 {
-  val linePattern: Regex = "^([\\w\\[\\]]+)\\s*=\\s*(\\w+)$"r
-  val memPattern: Regex = "^mem\\[(\\d+)\\]$"r
+object Day14 extends DayXX {
+  val linePattern: Regex = "^([\\w\\[\\]]+)\\s*=\\s*(\\w+)$".r
+  val memPattern: Regex = "^mem\\[(\\d+)\\]$".r
 
-  def part1(input: String): Long = {
+  override def part1(input: String): Long = {
     val lines = input.split("\n")
     var mask = Bitmask.None
     var mem: Map[Long, Long] = Map()
@@ -31,9 +31,7 @@ package object day14 {
     mem.values.sum
   }
 
-  // ---
-
-  def part2(input: String): Long = {
+  override def part2(input: String): Long = {
     val lines = input.split("\n")
     var mask = Bitmask2.None
     var mem: Map[Long, Long] = Map()
@@ -59,6 +57,4 @@ package object day14 {
     }
     mem.values.sum
   }
-
-  // ---
 }

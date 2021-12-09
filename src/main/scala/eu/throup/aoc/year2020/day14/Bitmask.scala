@@ -1,4 +1,4 @@
-package eu.throup.advent2020.day14
+package eu.throup.aoc.year2020.day14
 
 import java.lang.Long.parseLong
 import scala.language.postfixOps
@@ -19,8 +19,8 @@ case class Bitmask2(mask: String) {
 
   private val flips: Set[Long] = mask.indices
     .map(i => (mask.length - i - 1) -> mask(i))
-    .filter({case (_, c) => c == 'X'})
-    .map({case (i, _) => math.pow(2, i)})
+    .filter({ case (_, c) => c == 'X' })
+    .map({ case (i, _) => math.pow(2, i) })
     .map(_.toLong)
     .toSet
 
