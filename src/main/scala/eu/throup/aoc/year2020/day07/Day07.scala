@@ -1,13 +1,15 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day07
 
-import scala.language.postfixOps
+import eu.throup.aoc.DayXX
+
 import scala.util.matching.Regex
 
-package object day7 {
+object Day07 extends DayXX {
   private val SearchKey = "shiny gold"
 
-  def part1(input: String): Int = {
-    val containers = input.split("\n")
+  override def part1(input: String): Int = {
+    val containers = input
+      .split("\n")
       .map(new Rule(_))
       .flatMap(r => r.contentTypes.map((_, r.identifier)))
       .groupBy(_._1)
@@ -15,25 +17,22 @@ package object day7 {
       .toMap
 
     def deepCollect(input: Set[String]): Set[String] = {
-      input.flatMap(
-        str => {
-          if (containers.contains(str)) {
-            Set(str) ++ deepCollect(containers(str).toSet)
-          } else {
-            Set(str)
-          }
+      input.flatMap(str => {
+        if (containers.contains(str)) {
+          Set(str) ++ deepCollect(containers(str).toSet)
+        } else {
+          Set(str)
         }
-      )
+      })
     }
 
     deepCollect(Set(SearchKey)).size - 1
   }
 
-
-  // ---
-
-  def part2(input: String): Int = {
-    val rules = input.split("\n").map(new Rule(_))
+  override def part2(input: String): Int = {
+    val rules = input
+      .split("\n")
+      .map(new Rule(_))
       .map(r => (r.identifier, r.contentPairs))
       .toMap
 
@@ -53,8 +52,6 @@ package object day7 {
 
     deepCount(SearchKey) - 1
   }
-
-  // ---
 
   def matchGroups(pattern: Regex, input: String): List[String] = {
     val maybeMatch = pattern.findFirstMatchIn(input)
