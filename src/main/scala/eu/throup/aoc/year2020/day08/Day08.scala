@@ -1,10 +1,9 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day08
 
-import scala.language.postfixOps
-import scala.util.matching.Regex
+import eu.throup.aoc.DayXX
 
-package object day8 {
-  def part1(input: String): Int = {
+object Day08 extends DayXX {
+  override def part1(input: String): Int = {
     val splits = input.split("\n")
     val instructions = toInstructions(splits)
 
@@ -13,7 +12,7 @@ package object day8 {
 
   // ---
 
-  def part2(input: String): Int = {
+  override def part2(input: String): Int = {
     val splits = input.split("\n")
 
     var sol = -1
@@ -66,7 +65,7 @@ package object day8 {
   }
 
   def parseInstruction(input: String): (String, Int) = {
-    val pattern = "(\\w+)\\s*([+-]?\\d+)"r
+    val pattern = "(\\w+)\\s*([+-]?\\d+)".r
     val theMatch = pattern.findFirstMatchIn(input).get
     (
       theMatch.group(1),

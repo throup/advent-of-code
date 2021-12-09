@@ -1,6 +1,6 @@
-package eu.throup.advent2020.day8
+package eu.throup.aoc.year2020.day08
 
-import eu.throup.advent2020.day8.parseInstruction
+import eu.throup.aoc.year2020.day08.Day08.parseInstruction
 
 import scala.language.postfixOps
 import scala.util.matching.Regex
@@ -14,8 +14,8 @@ abstract class Instruction {
 
   def jumpTo(num: Int): Instruction = {
     num.sign match {
-      case 0 => this
-      case 1 => next.jumpTo(num - 1)
+      case 0  => this
+      case 1  => next.jumpTo(num - 1)
       case -1 => prev.jumpTo(num + 1)
     }
   }
