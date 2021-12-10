@@ -1,4 +1,4 @@
-package eu.throup.advent2020.day20
+package eu.throup.aoc.year2020.day20
 
 case class Tile(id: Long, rows: Array[String]) {
   def huntMonsters(monster: Array[String]): Tile = {
@@ -37,9 +37,8 @@ case class Tile(id: Long, rows: Array[String]) {
   val b4: String = rows.reverse.map(_.head).mkString
   val borders: Seq[String] = Seq(b1, b2, b3, b4)
 
-  lazy val islands: Long = {
+  lazy val islands: Long =
     rows.map(row => row.count(_ == '#')).sum
-  }
 
   lazy val innerImage: Array[String] = {
     val innerRows: Array[String] = rows.tail.reverse.tail.reverse
@@ -59,14 +58,14 @@ case class Tile(id: Long, rows: Array[String]) {
   lazy val turnR: Tile = {
     new Tile(
       id,
-      rows.indices.map(i => rows.reverse.map(_ (i)).mkString).toArray
+      rows.indices.map(i => rows.reverse.map(_(i)).mkString).toArray
     )
   }
 
   lazy val turnL: Tile = {
     new Tile(
       id,
-      rows.indices.reverse.map(i => rows.map(_ (i)).mkString).toArray
+      rows.indices.reverse.map(i => rows.map(_(i)).mkString).toArray
     )
   }
 }

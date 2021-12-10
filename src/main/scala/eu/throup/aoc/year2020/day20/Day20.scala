@@ -1,26 +1,27 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day20
 
-package object day20 {
-  def part1(input: String): Long = {
+import eu.throup.aoc.DayXX
+
+//TODO: Maybe a _little_ refactoring here...
+object Day20 extends DayXX {
+  override def part1(input: String): Long = {
     val tiles = parseTiles(input)
     val arranged = arrangeTiles(tiles)
 
-    val corners = Seq(
+    Seq(
       arranged.head.head,
       arranged.head.last,
       arranged.last.head,
       arranged.last.last
     )
-
-    corners.map(t => t.id).product
+      .map(_.id)
+      .product
   }
 
-  // ---
-
-  def parseTiles(input: String) = {
-    input.split("\n\n")
+  def parseTiles(input: String) =
+    input
+      .split("\n\n")
       .map(Tile(_))
-  }
 
   private def countMatches(tile: Tile, others: Seq[Tile]): Int = {
     val comp: Seq[Tile] = others.filter(t => t.id != tile.id)
@@ -33,12 +34,11 @@ package object day20 {
     val borders = tiles.flatMap(_.borders)
     val reversed = borders.map(_.reverse)
 
-    val combined =  borders ++ reversed
+    val combined = borders ++ reversed
     combined.count(_.equals(border))
   }
 
-
-  def part2(input: String): Long = {
+  override def part2(input: String): Long = {
     val tiles = parseTiles(input)
     val picture = mergeTiles(tiles)
 
@@ -54,8 +54,10 @@ package object day20 {
     hunted8.islands
   }
 
-  val monster: Array[String] = "                  # \n#    ##    ##    ###\n #  #  #  #  #  #   ".split("\n")
-  // ---
+  val monster: Array[String] =
+    "                  # \n#    ##    ##    ###\n #  #  #  #  #  #   ".split(
+      "\n"
+    )
 
   def mergeTiles(tiles: Seq[Tile]): Tile = {
     new Tile(0, generateImage(tiles).toArray)
@@ -68,7 +70,7 @@ package object day20 {
   private def generateImage(tiles: Seq[Tile]): Seq[String] = {
     arrangeTiles(tiles)
       .map(row => row.map(_.innerImage))
-      .flatMap(row => row.head.indices.map(i => row.map(_ (i)).mkString))
+      .flatMap(row => row.head.indices.map(i => row.map(_(i)).mkString))
   }
 
   private def arrangeTiles(tiles: Seq[Tile]): Seq[Seq[Tile]] = {
@@ -80,7 +82,10 @@ package object day20 {
     arrangeTiles(startingPosition, otherTiles)
   }
 
-  private def arrangeTiles(startingPosition: Tile, otherTiles: Seq[Tile]): Seq[Seq[Tile]] = {
+  private def arrangeTiles(
+      startingPosition: Tile,
+      otherTiles: Seq[Tile]
+  ): Seq[Seq[Tile]] = {
     val imageSize: Int = math.sqrt(otherTiles.length + 1).toInt
 
     var initialTile = startingPosition
@@ -90,12 +95,14 @@ package object day20 {
 
     for (dir <- Right to Up) {
       rows ++= Seq(findRowOfTiles(initialTile, setOfOtherTiles, imageSize, dir))
-      setOfOtherTiles = setOfOtherTiles.filter(t => !rows.last.map(_.id).contains(t.id))
+      setOfOtherTiles =
+        setOfOtherTiles.filter(t => !rows.last.map(_.id).contains(t.id))
       initialTile = rows.last.last
     }
 
     val innerImage = if (setOfOtherTiles.nonEmpty) {
-      val firstInnerTile = tileMatchingBorder(rows(0)(1).b3, setOfOtherTiles).get.flipH
+      val firstInnerTile =
+        tileMatchingBorder(rows(0)(1).b3, setOfOtherTiles).get.flipH
       setOfOtherTiles = setOfOtherTiles.filter(t => firstInnerTile.id != t.id)
 
       if (setOfOtherTiles.length > 1) {
@@ -114,12 +121,19 @@ package object day20 {
     Seq(rows(0)) ++ midImage ++ Seq(rows(2).reverse)
   }
 
-  private def findRowOfTiles(initialTile: Tile, otherTiles: Seq[Tile], n: Int, dir: Int): Seq[Tile] = {
+  private def findRowOfTiles(
+      initialTile: Tile,
+      otherTiles: Seq[Tile],
+      n: Int,
+      dir: Int
+  ): Seq[Tile] = {
     val optNextTile = dir match {
       case Up => tileMatchingBorder(initialTile.b1, otherTiles).map(_.flipV)
-      case Right => tileMatchingBorder(initialTile.b2, otherTiles).map(_.flipH).map(_.turnL)
+      case Right =>
+        tileMatchingBorder(initialTile.b2, otherTiles).map(_.flipH).map(_.turnL)
       case Down => tileMatchingBorder(initialTile.b3, otherTiles).map(_.flipH)
-      case Left => tileMatchingBorder(initialTile.b4, otherTiles).map(_.flipH).map(_.turnR)
+      case Left =>
+        tileMatchingBorder(initialTile.b4, otherTiles).map(_.flipH).map(_.turnR)
     }
     if (optNextTile.nonEmpty) {
       val nextTile = optNextTile.get
@@ -139,11 +153,11 @@ package object day20 {
     val sum = t1 + t2 + t3 + t4
 
     sum match {
-      case 3 => tile.flipV // b1 + b2
-      case 6 => tile // b2 + b3
-      case 9 => tile.flipV.flipH // b1 + b4
+      case 3  => tile.flipV // b1 + b2
+      case 6  => tile // b2 + b3
+      case 9  => tile.flipV.flipH // b1 + b4
       case 12 => tile.flipH // b3 + b4
-      case _ => tile
+      case _  => tile
     }
   }
 
@@ -152,7 +166,10 @@ package object day20 {
       .map(orientToBorder(border, _))
   }
 
-  private def findMatchingBorder(border: String, tiles: Seq[Tile]): Option[Tile] = {
+  private def findMatchingBorder(
+      border: String,
+      tiles: Seq[Tile]
+  ): Option[Tile] = {
     val straight = tiles.filter(t => t.borders.contains(border))
     val flipped = tiles.filter(t => t.borders.contains(border.reverse))
 
@@ -164,7 +181,7 @@ package object day20 {
     case tile.b2 => tile.turnL
     case tile.b3 => tile.flipV.flipH
     case tile.b4 => tile.turnR
-    case _ => orientToBorder(border.reverse, tile).flipH
+    case _       => orientToBorder(border.reverse, tile).flipH
   }
 
   private val Up = 4
