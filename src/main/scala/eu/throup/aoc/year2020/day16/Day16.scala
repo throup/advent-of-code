@@ -1,29 +1,25 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day16
 
-import scala.language.postfixOps
+import eu.throup.aoc.DayXX
 
-package object day16 {
-  def part1(input: String): Long = {
+object Day16 extends DayXX {
+  override def part1(input: String): Long = {
     val theFields = fields(input)
     nearbyTickets(input)
-      .map(t => errorRate(t, theFields))
+      .map(errorRate(_, theFields))
       .sum
   }
 
-  // ---
-
-  def part2(input: String): Long = {
+  override def part2(input: String): Long = {
     val theFields = fields(input)
     val mine = myTicket(input)
     val valid = validTickets(input)
 
-    val candidates: Array[Set[Int]] = theFields.map(f =>
-      mine.indices.filter(i =>
-        valid.forall(t =>
-          f.range.contains(t(i))
-        )
+    val candidates: Array[Set[Int]] = theFields
+      .map(f =>
+        mine.indices.filter(i => valid.forall(t => f.range.contains(t(i))))
       )
-    ).map(_.toSet)
+      .map(_.toSet)
 
     var indexed: Map[Int, Set[Int]] = candidates.indices
       .map(i => i -> candidates(i))
@@ -32,7 +28,8 @@ package object day16 {
     var toFind = mine.length
     var mapped: Map[Int, Field] = Map()
     while (toFind > 0) {
-      val next: (Int, Set[Int]) = indexed.find({case (_, s) => s.size == 1}).get
+      val next: (Int, Set[Int]) =
+        indexed.find({ case (_, s) => s.size == 1 }).get
       val index = next._1
       val found = next._2.head
       mapped += found -> theFields(index)
@@ -40,13 +37,12 @@ package object day16 {
       toFind -= 1
     }
 
-    mapped.filter({ case (_, f) => f.label.startsWith("departure ") })
+    mapped
+      .filter({ case (_, f) => f.label.startsWith("departure ") })
       .keys
       .map(k => mine(k))
       .product
   }
-
-  // ---
 
   private def validTickets(input: String) = {
     val theFields = fields(input)
@@ -55,20 +51,23 @@ package object day16 {
   }
 
   private def fields(input: String) = {
-    input.split("\n\n")(0)
+    input
+      .split("\n\n")(0)
       .split("\n")
-      .map(Field)
+      .map(Field(_))
   }
 
   private def myTicket(input: String) = {
-    val mine = input.split("\n\n")(1)
+    val mine = input
+      .split("\n\n")(1)
       .split("\n")(1)
 
     parseTicket(mine)
   }
 
   private def nearbyTickets(input: String) = {
-    input.split("\n\n")(2)
+    input
+      .split("\n\n")(2)
       .split("\n")
       .tail
       .map(parseTicket)
@@ -78,12 +77,11 @@ package object day16 {
     input.split(",").map(_.toLong)
   }
 
-  private def errorRate(ticket: Seq[Long], fields: Seq[Field]): Long  = {
-    ticket.filter(f => !isFieldValid(f, fields))
-      .sum
+  private def errorRate(ticket: Seq[Long], fields: Seq[Field]): Long = {
+    ticket.filter(f => !isFieldValid(f, fields)).sum
   }
 
-  private def isTicketValid(ticket: Seq[Long], fields: Seq[Field]): Boolean  = {
+  private def isTicketValid(ticket: Seq[Long], fields: Seq[Field]): Boolean = {
     ticket.forall(f => isFieldValid(f, fields))
   }
 

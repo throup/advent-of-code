@@ -1,9 +1,10 @@
-package eu.throup.advent2020.day16
+package eu.throup.aoc.year2020.day16
 
 import scala.language.postfixOps
 
 case class Field(private val input: String) {
-  private val Pattern = "^([\\w\\s]+):\\s*(\\d+)-(\\d+)\\s*or\\s*(\\d+)-(\\d+)$"r
+  private val Pattern =
+    "^([\\w\\s]+):\\s*(\\d+)-(\\d+)\\s*or\\s*(\\d+)-(\\d+)$" r
   private val matches = Pattern.findFirstMatchIn(input).get
 
   val label: String = matches.group(1)
