@@ -1,23 +1,18 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day24
 
-package object day24 {
-  def part1(input: String): Long = {
-    getTiles2(input)
-      .flatten
-      .sum
-  }
+import eu.throup.aoc.DayXX
 
+object Day24 extends DayXX {
+  override def part1(input: String): Long =
+    getTiles2(input).flatten.sum
 
-  // ---
-
-  private def getTiles(input: String): Map[(Int, Int), Int] = {
+  private def getTiles(input: String): Map[(Int, Int), Int] =
     parseLines(input)
       .map(findCoordinates)
       .groupBy(identity)
       .mapValues(_.length)
       .mapValues(_ % 2)
       .toMap
-  }
 
   private def getTiles2(input: String): Array[Array[Int]] = {
     val tiles: Map[(Int, Int), Int] = getTiles(input)
@@ -27,7 +22,8 @@ package object day24 {
     val kmin = k.keys.min
     val kmax = k.keys.max
 
-    val kkk: Array[Map[(Int, Int), Int]] = (kmin to kmax).toArray.map(k.get).map(_.getOrElse(Map.empty))
+    val kkk: Array[Map[(Int, Int), Int]] =
+      (kmin to kmax).toArray.map(k.get).map(_.getOrElse(Map.empty))
 
     val lll: Array[Map[Int, Int]] = kkk.map(m => m.map(me => me._1._2 -> me._2))
 
@@ -36,37 +32,33 @@ package object day24 {
     val llmaxs = lll.map(m => m.keys.max)
     val llmax = llmaxs.max
 
-    val mmm: Array[Array[Int]] = lll.map((im: Map[Int, Int]) => {
+    lll.map((im: Map[Int, Int]) => {
       val inclusive = (llmin to llmax).toArray
       val value = inclusive.map(im.get)
       val value1 = value.map(_.getOrElse(0))
       value1
     })
-
-    mmm
   }
 
-  def findCoordinates(inst: Array[String]): (Int, Int) = {
-    inst.map(findSingleCoordinate)
+  def findCoordinates(inst: Array[String]): (Int, Int) =
+    inst
+      .map(findSingleCoordinate)
       .reduce((a, b) => (a._1 + b._1, a._2 + b._2))
-  }
 
-  private def findSingleCoordinate(i: String): (Int, Int) = {
+  private def findSingleCoordinate(i: String): (Int, Int) =
     i match {
-      case "e" => (1, 0)
-      case "w" => (-1, 0)
+      case "e"  => (1, 0)
+      case "w"  => (-1, 0)
       case "ne" => (1, 1)
       case "nw" => (0, 1)
       case "se" => (0, -1)
       case "sw" => (-1, -1)
     }
-  }
 
-  private def parseLines(input: String) = {
+  private def parseLines(input: String) =
     input.split("\n").map(parseLine)
-  }
 
-  private def parseLine(input: String) = {
+  private def parseLine(input: String) =
     input
       .replaceAll("se", "T")
       .replaceAll("sw", "U")
@@ -78,12 +70,10 @@ package object day24 {
         case "U" => "sw"
         case "V" => "ne"
         case "W" => "nw"
-        case c => c
+        case c   => c
       }
-  }
 
-
-  def part2(input: String): Long = {
+  override def part2(input: String): Long = {
     var tiles = getTiles2(input)
 
     (0 until 100).foreach(_ => {
@@ -115,7 +105,9 @@ package object day24 {
           sw
         )
 
-        val mm: List[Int] = neighbours.map({ case (x, y) => tileAt(tiles, x, y) })
+        val mm: List[Int] = neighbours.map({ case (x, y) =>
+          tileAt(tiles, x, y)
+        })
         val mn: Int = mm.sum
 
         tileAt(tiles, i, j) match {
@@ -127,12 +119,10 @@ package object day24 {
     newTiles
   }
 
-  def tileAt(source: Array[Array[Int]], x: Int, y: Int): Int = {
+  def tileAt(source: Array[Array[Int]], x: Int, y: Int): Int =
     if (source.indices.contains(x)) {
       if (source(x).indices.contains(y)) {
         source(x)(y)
       } else 0
     } else 0
-  }
-  // ---
 }
