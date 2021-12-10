@@ -1,7 +1,9 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day22
 
-package object day22 {
-  def part1(input: String): BigInt = {
+import eu.throup.aoc.DayXX
+
+object Day22 extends DayXX {
+  override def part1(input: String): BigInt = {
     GameTracker.reset()
     val hands = parseInput(input)
 
@@ -12,18 +14,15 @@ package object day22 {
     game.score
   }
 
-  // ---
-
   private def parseInput(input: String): Array[Array[Int]] = {
-    input.split("\n\n")
+    input
+      .split("\n\n")
       .map(_.split("\n"))
       .map(_.tail)
       .map(_.map(_.toInt))
   }
 
-  // ---
-
-  def part2(input: String): BigInt = {
+  override def part2(input: String): BigInt = {
     GameTracker.reset()
     val hands = parseInput(input)
 
