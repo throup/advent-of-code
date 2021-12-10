@@ -1,9 +1,11 @@
-package eu.throup.advent2020
+package eu.throup.aoc.year2020.day25
+
+import eu.throup.aoc.DayXX
 
 import scala.collection.mutable.Map
 
-package object day25 {
-  def part1(input: String): Long = {
+object Day25 extends DayXX {
+  override def part1(input: String): Long = {
     val subject = 7
     val parts = input.split("\n")
 
@@ -24,14 +26,7 @@ package object day25 {
     }
   }
 
-  // ---
-
-  def part2(input: String): Long = {
-    0
-  }
-
-  // ---
-
+  override def part2(input: String): Long = 0
 
   val results: Map[String, Long] = Map.empty
   def transform(subject: Long, size: Long, value: Long = 1): Long = {
