@@ -6,33 +6,37 @@ import eu.throup.measures.Point
 import scala.annotation.tailrec
 
 object Day11 extends DayXX {
-  override def part1(input: String) = {
-    val parsed = Grid(input)
-    runSteps(parsed, 100).flashes
-  }
+  override def part1(input: String) =
+    runSteps(
+      (FlashingGrid(input), Flasher()),
+      100
+    ).count
 
-  override def part2(input: String) = {
-    val parsed = Grid(input)
-    countStepsUntilZero(parsed)
-  }
-
-  @tailrec
-  def runSteps(grid: Grid, steps: Int): Grid =
-    if (steps == 0) grid
-    else runSteps(runStep(grid), steps - 1)
+  override def part2(input: String) =
+    countStepsUntilZero((FlashingGrid(input), Flasher()))
 
   @tailrec
-  def countStepsUntilZero(grid: Grid, steps: Int = 0): Int =
-    if (grid.count(_ == 0) == 100) steps
-    else countStepsUntilZero(runStep(grid), steps + 1)
-
-  def runStep(grid: Grid): Grid =
-    loopFlash(
-      grid.map(_ + 1)
-    ).collectFlashes
+  def runSteps(gf: GridWithFlasher, steps: Int): Flasher =
+    if (steps == 0) gf._2
+    else runSteps(runStep(gf), steps - 1)
 
   @tailrec
-  def loopFlash(grid: Grid, knownTens: Set[Point] = Set()): Grid = {
+  def countStepsUntilZero(gf: GridWithFlasher, steps: Int = 0): Int =
+    if (gf._1.count(_ == 0) == 100) steps
+    else countStepsUntilZero(runStep(gf), steps + 1)
+
+  def runStep(gf: GridWithFlasher): GridWithFlasher =
+    gf._2.collectFlashes(
+      loopFlash(
+        gf._1.map(_ + 1)
+      )
+    )
+
+  @tailrec
+  def loopFlash(
+      grid: FlashingGrid,
+      knownTens: Set[Point] = Set()
+  ): FlashingGrid = {
     val tens = knownTens ++ grid.filter(_ == 10).points
     if (tens.isEmpty) grid
     else
