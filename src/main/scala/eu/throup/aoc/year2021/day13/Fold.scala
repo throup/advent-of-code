@@ -1,5 +1,7 @@
 package eu.throup.aoc.year2021.day13
 
+import eu.throup.measures.Point
+
 sealed trait Fold {
   def apply(p: Point): Point
   def reflect(n: Int, m: Int): Int = if (n < m) n else 2 * m - n

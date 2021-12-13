@@ -1,6 +1,5 @@
-package eu.throup.aoc.year2021.day11
+package eu.throup.measures
 
-// TODO: Merge with the implementation in day05 and day09
 case class Point(x: Int, y: Int) {
   def +(other: Point): Point = Point(x + other.x, y + other.y)
   def -(other: Point): Point = Point(x - other.x, y - other.y)

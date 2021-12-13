@@ -1,5 +1,7 @@
 package eu.throup.aoc.year2021.day05
 
+import eu.throup.measures.Point
+
 case class LineSegment(p1: Point, p2: Point) {
   val ydelta = p2.y - p1.y
   val xdelta = p2.x - p1.x

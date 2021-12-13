@@ -1,5 +1,7 @@
 package eu.throup.aoc.year2021.day09
 
+import eu.throup.measures.Point
+
 case class Grid(theMap: Map[Point, Int]) {
   lazy val lowPoints: Set[Point] =
     theMap

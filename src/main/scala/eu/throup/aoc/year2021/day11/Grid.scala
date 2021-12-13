@@ -1,5 +1,7 @@
 package eu.throup.aoc.year2021.day11
 
+import eu.throup.measures.Point
+
 // TODO: identify common elements with day09
 case class Grid(theMap: Map[Point, Int], flashes: Long = 0) {
 

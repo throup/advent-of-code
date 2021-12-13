@@ -1,5 +1,7 @@
 package eu.throup.aoc.year2021.day13
 
+import eu.throup.measures.Point
+
 case class Paper(points: Set[Point]) {
   def apply(fold: Fold): Paper =
     Paper(points.map(fold(_)))
