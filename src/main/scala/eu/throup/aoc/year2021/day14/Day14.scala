@@ -16,16 +16,10 @@ object Day14 extends DayXX {
     // Because we are going to count pairs of elements, the first and last entries will be underrepresented in the final
     // tallies. To correct that, we capture both elements here (they may be the same) to use for correction at the end.
     val correctionMap: Map[Element, Long] =
-      sumSomeMaps(
-        Map(template.head -> 1),
-        Map(template.reverse.head -> 1)
-      )
+      Map(template.head -> 1L) + Map(template.reverse.head -> 1L)
 
     val correctedElementCount: Map[Element, Long] =
-      sumSomeMaps(
-        elementCount(afterLoop),
-        correctionMap
-      )
+      elementCount(afterLoop) + correctionMap
 
     val values = correctedElementCount.values
     (values.max - values.min) / 2
@@ -39,21 +33,11 @@ object Day14 extends DayXX {
   def elementCount(afterLoop: Template): Map[Element, Long] =
     sumSomeMaps(
       afterLoop
-        .map { case (p, c) => sumTwoMaps(Map(p._1 -> c), Map(p._2 -> c)) }
+        .map { case (p, c) => Map(p._1 -> c) + Map(p._2 -> c) }
         .toSeq *
     )
 
-  @tailrec
-  def sumSomeMaps[A](maps: Map[A, Long]*): Map[A, Long] =
-    if (maps.isEmpty) Map()
-    else if (maps.size == 1) maps.head
-    else sumSomeMaps(sumTwoMaps(maps(0), maps(1)) +: maps.drop(2) *)
-
-  def sumTwoMaps[A](first: Map[A, Long], second: Map[A, Long]): Map[A, Long] =
-    (first.toSeq ++ second.toSeq)
-      .groupBy(_._1)
-      .mapValues(_.map(_._2).sum)
-      .toMap
+  def sumSomeMaps[A](maps: Map[A, Long]*): Map[A, Long] = maps.head + maps.tail
 
   def parseInput(input: String): (String, RuleSet) = {
     val strings = input.trim.split("\n\n")
