@@ -6,6 +6,8 @@ case class Point(x: Int, y: Int) {
 }
 
 object Point {
+  val Zero: Point = Point(0, 0)
+
   def apply(input: String): Point = {
     val coords: Array[Int] =
       input
