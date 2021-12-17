@@ -3,6 +3,15 @@ package eu.throup.measures
 case class Point(x: Int, y: Int) {
   def +(other: Point): Point = Point(x + other.x, y + other.y)
   def -(other: Point): Point = Point(x - other.x, y - other.y)
+
+  def x_>=(p: Point): Boolean = x >= p.x
+  def x_>(p: Point): Boolean = x > p.x
+  def x_<(p: Point): Boolean = x < p.x
+  def x_<=(p: Point): Boolean = x <= p.x
+  def y_>=(p: Point): Boolean = y >= p.y
+  def y_>(p: Point): Boolean = y > p.y
+  def y_<(p: Point): Boolean = y < p.y
+  def y_<=(p: Point): Boolean = y <= p.y
 }
 
 object Point {
