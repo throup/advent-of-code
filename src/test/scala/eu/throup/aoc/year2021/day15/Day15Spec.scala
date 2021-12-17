@@ -20,18 +20,6 @@ class Day15Spec extends DayXXSpec {
     "puzzle input" -> (puzzleInput, 2868)
   )
 
-  override def limits1 = Map(
-    "sample input" -> 100.milliseconds,
-    "sample 2 input" -> 100.milliseconds,
-    "puzzle input" -> 1.second
-  )
-
-  override def limits2 = Map(
-    "sample input" -> 100.milliseconds,
-    "sample 2 input" -> 100.milliseconds,
-    "puzzle input" -> 30.seconds
-  )
-
   def sampleInput = loadResource("sampleinput.txt")
   def sample2Input = loadResource("sample2input.txt")
   def puzzleInput = loadResource("puzzleinput.txt")
