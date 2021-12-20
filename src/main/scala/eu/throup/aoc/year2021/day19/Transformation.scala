@@ -1,0 +1,90 @@
+package eu.throup.aoc.year2021.day19
+
+object Transformation {
+  val rotations: Set[Beacon => Beacon] = Set(
+    b => Beacon(b.x, b.y, b.z),
+    b => Beacon(-b.x, b.y, b.z),
+    b => Beacon(b.x, -b.y, b.z),
+    b => Beacon(-b.x, -b.y, b.z),
+    b => Beacon(b.x, b.y, -b.z),
+    b => Beacon(-b.x, b.y, -b.z),
+    b => Beacon(b.x, -b.y, -b.z),
+    b => Beacon(-b.x, -b.y, -b.z),
+    b => Beacon(b.x, b.z, b.y),
+    b => Beacon(-b.x, b.z, b.y),
+    b => Beacon(b.x, -b.z, b.y),
+    b => Beacon(-b.x, -b.z, b.y),
+    b => Beacon(b.x, b.z, -b.y),
+    b => Beacon(-b.x, b.z, -b.y),
+    b => Beacon(b.x, -b.z, -b.y),
+    b => Beacon(-b.x, -b.z, -b.y),
+    b => Beacon(b.y, b.x, b.z),
+    b => Beacon(-b.y, b.x, b.z),
+    b => Beacon(b.y, -b.x, b.z),
+    b => Beacon(-b.y, -b.x, b.z),
+    b => Beacon(b.y, b.x, -b.z),
+    b => Beacon(-b.y, b.x, -b.z),
+    b => Beacon(b.y, -b.x, -b.z),
+    b => Beacon(-b.y, -b.x, -b.z),
+    b => Beacon(b.y, b.z, b.x),
+    b => Beacon(-b.y, b.z, b.x),
+    b => Beacon(b.y, -b.z, b.x),
+    b => Beacon(-b.y, -b.z, b.x),
+    b => Beacon(b.y, b.z, -b.x),
+    b => Beacon(-b.y, b.z, -b.x),
+    b => Beacon(b.y, -b.z, -b.x),
+    b => Beacon(-b.y, -b.z, -b.x),
+    b => Beacon(b.z, b.x, b.y),
+    b => Beacon(-b.z, b.x, b.y),
+    b => Beacon(b.z, -b.x, b.y),
+    b => Beacon(-b.z, -b.x, b.y),
+    b => Beacon(b.z, b.x, -b.y),
+    b => Beacon(-b.z, b.x, -b.y),
+    b => Beacon(b.z, -b.x, -b.y),
+    b => Beacon(-b.z, -b.x, -b.y),
+    b => Beacon(b.z, b.y, b.x),
+    b => Beacon(-b.z, b.y, b.x),
+    b => Beacon(b.z, -b.y, b.x),
+    b => Beacon(-b.z, -b.y, b.x),
+    b => Beacon(b.z, b.y, -b.x),
+    b => Beacon(-b.z, b.y, -b.x),
+    b => Beacon(b.z, -b.y, -b.x),
+    b => Beacon(-b.z, -b.y, -b.x)
+  )
+
+  val allTranslations: Set[Beacon => Beacon] = translations(1)
+
+  val transforms: Set[Beacon => Beacon] = rotations.flatMap(rotation =>
+    allTranslations.map(translation => (b => translation(rotation(b))))
+  )
+
+  def translations(d: Int): Set[Beacon => Beacon] = Set(
+    b => Beacon(b.x, b.y, b.z),
+    b => Beacon(b.x - d, b.y, b.z),
+    b => Beacon(b.x + d, b.y, b.z),
+    b => Beacon(b.x, b.y - d, b.z),
+    b => Beacon(b.x - d, b.y - d, b.z),
+    b => Beacon(b.x + d, b.y - d, b.z),
+    b => Beacon(b.x, b.y + d, b.z),
+    b => Beacon(b.x - d, b.y + d, b.z),
+    b => Beacon(b.x + d, b.y + d, b.z),
+    b => Beacon(b.x, b.y, b.z - d),
+    b => Beacon(b.x - d, b.y, b.z - d),
+    b => Beacon(b.x + d, b.y, b.z - d),
+    b => Beacon(b.x, b.y - d, b.z - d),
+    b => Beacon(b.x - d, b.y - d, b.z - d),
+    b => Beacon(b.x + d, b.y - d, b.z - d),
+    b => Beacon(b.x, b.y + d, b.z - d),
+    b => Beacon(b.x - d, b.y + d, b.z - d),
+    b => Beacon(b.x + d, b.y + d, b.z - d),
+    b => Beacon(b.x, b.y, b.z + d),
+    b => Beacon(b.x - d, b.y, b.z + d),
+    b => Beacon(b.x + d, b.y, b.z + d),
+    b => Beacon(b.x, b.y - d, b.z + d),
+    b => Beacon(b.x - d, b.y - d, b.z + d),
+    b => Beacon(b.x + d, b.y - d, b.z + d),
+    b => Beacon(b.x, b.y + d, b.z + d),
+    b => Beacon(b.x - d, b.y + d, b.z + d),
+    b => Beacon(b.x + d, b.y + d, b.z + d)
+  )
+}
