@@ -1,10 +1,9 @@
 package eu.throup.aoc.year2021.day17
 
 import eu.throup.aoc.DayXX
-import eu.throup.measures.Point
+import eu.throup.measures.{Point, PointRange, PointSet, xMax, xMin, yMax, yMin}
 
 import scala.annotation.tailrec
-import scala.collection.MapView
 
 object Day17 extends DayXX {
   override def part1(input: String) = {

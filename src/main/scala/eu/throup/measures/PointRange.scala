@@ -1,6 +1,4 @@
-package eu.throup.aoc.year2021.day17
-
-import eu.throup.measures.Point
+package eu.throup.measures
 
 case class PointRange(p1: Point, p2: Point) {
   lazy val xMin = p1.x min p2.x

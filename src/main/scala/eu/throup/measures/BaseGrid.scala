@@ -39,6 +39,8 @@ trait BaseGrid[A] {
 
   def apply(point: Point): A = theMap(point)
 
+  def valuesOrElse(points: Seq[Point], orElse: A): Seq[A] =
+    points.map(theMap.getOrElse(_, orElse))
   def values(points: Seq[Point]): Seq[A] = points.map(theMap(_))
   def values(points: Set[Point]): Seq[A] = values(points.toSeq)
 
@@ -59,6 +61,13 @@ trait BaseGrid[A] {
 
   def filter(f: (Point, A) => Boolean): G =
     constructMe(theMap.filter { case (p, i) => f(p, i) })
+
+  def crop(x0: Int, x1: Int, y0: Int, y1: Int): G =
+    filter((p: Point, a: A) =>
+      (
+        p.x >= x0 && p.x <= x1 && p.y >= y0 && p.y <= y1
+      )
+    )
 
   def +(t: (Point, A)): G = constructMe(theMap + t)
   def set(p: Point, a: A): G = this.+((p, a))
