@@ -1,6 +1,4 @@
-package eu.throup.aoc.year2021.day17
-
-import eu.throup.measures.Point
+package eu.throup.measures
 
 type PointSet = Set[Point]
 extension(set: PointSet) {
@@ -11,7 +9,7 @@ extension(set: PointSet) {
 
   def xRange: Range = (xMin to xMax)
   def yRange: Range = (yMin to yMax)
-  
+
   def toRange: PointRange = PointRange(xMin, xMax, yMin, yMax)
 }
 object PointSet {
