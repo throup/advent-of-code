@@ -1,28 +1,22 @@
 package eu.throup.collection
 
+import eu.throup.circular.{*, given}
+import eu.throup.circular.CircularArraySeq.{*, given}
 import org.scalatest.freespec.AnyFreeSpec
 
 class CircularArraySpec extends AnyFreeSpec {
   "Construct it" - {
-    "Construct with a size" in {
-      val c = new CircularArray[Int](123)
-      assert(c.length == 123)
-    }
-/*    "Construct with a sequence" in {
-      val c = new CircularArray(Seq(1, 2, 3, 4, 5, 6, 7, 8))
-      assert(c.length == 8)
-    }*/
     "Construct with an array" in {
-      val c = new CircularArray(Array(1, 2, 3, 4, 5, 6, 7, 8))
+      val c = CircularArraySeq(Array(1, 2, 3, 4, 5, 6, 7, 8))
       assert(c.length == 8)
     }
     "Construct with parameter sequence" in {
-      val c = CircularArray(1, 2, 3, 4, 5, 6, 7, 8)
+      val c = CircularArraySeq(1, 2, 3, 4, 5, 6, 7, 8)
       assert(c.length == 8)
     }
   }
   "Fetching values" - {
-    val c = CircularArray(3, 4, 5, 6)
+    val c = CircularArraySeq(3, 4, 5, 6)
     "within real range" in {
       assert(c(0) == 3)
       assert(c(1) == 4)
@@ -51,7 +45,7 @@ class CircularArraySpec extends AnyFreeSpec {
     }
   }
   "Converting it" - {
-    val c = CircularArray(3, 4, 5, 6)
+    val c = CircularArraySeq(3, 4, 5, 6)
     "original array" - {
       "to Array" in {
         val a: Array[Int] = c.toArray
@@ -75,7 +69,7 @@ class CircularArraySpec extends AnyFreeSpec {
     }
   }
   "Inserting values" - {
-    val c = CircularArray(3, 4, 5, 6)
+    val c = CircularArraySeq(3, 4, 5, 6)
     "single values" - {
       "At the tail" in {
         val d = c.appended(7)
@@ -111,7 +105,7 @@ class CircularArraySpec extends AnyFreeSpec {
         assert(d(5) == 3)
       }
       "Replacing values" in {
-        val d: CircularArray[Int] = c(2) = 8
+        val d: CircularArraySeq[Int] = c(2) = 8
         assert(d(0) == 3)
         assert(d(1) == 4)
         assert(d(2) == 8)
@@ -264,7 +258,7 @@ class CircularArraySpec extends AnyFreeSpec {
     }
   }
   "Shifting values" - {
-    val c = CircularArray(3, 4, 5, 6)
+    val c = CircularArraySeq(3, 4, 5, 6)
     "shift left" - {
       "shift by 1" in {
         val d = c.shiftLeft()
@@ -383,7 +377,7 @@ class CircularArraySpec extends AnyFreeSpec {
     }
   }
   "Locating items" - {
-    val c = CircularArray(3, 4, 5, 4, 6, 7, 4, 8)
+    val c = CircularArraySeq(3, 4, 5, 4, 6, 7, 4, 8)
     val d = c.shiftLeft(4)
     "indexOf" in {
       assert(c.indexOf(4) == 1)
@@ -420,7 +414,7 @@ class CircularArraySpec extends AnyFreeSpec {
     }
   }
   "Slicing" - {
-    val c = CircularArray(1, 2, 3, 4, 5, 6, 7, 8)
+    val c = CircularArraySeq(1, 2, 3, 4, 5, 6, 7, 8)
     "moveSliceTo" - {
       "move to the same place" in {
         val d = c.moveSliceTo(2, 5, 2)
@@ -500,24 +494,24 @@ class CircularArraySpec extends AnyFreeSpec {
       }
       "overlapping slice don't move" in {
         val d = c.moveSliceTo(7, 10, 7)
-        assert(d.toSeq == Seq(1, 2, 3, 4, 5, 6, 7, 8))   // 8, 1, 2
+        assert(d.toSeq == Seq(1, 2, 3, 4, 5, 6, 7, 8)) // 8, 1, 2
       }
 
       "overlapping slice move left 1" in {
         val d = c.moveSliceTo(7, 10, 6)
-        assert(d.toSeq == Seq(2, 7, 3, 4, 5, 6, 8, 1))   // 8, 1, 2
+        assert(d.toSeq == Seq(2, 7, 3, 4, 5, 6, 8, 1)) // 8, 1, 2
       }
       "overlapping slice move left 2" in {
         val d = c.moveSliceTo(7, 10, 5)
-        assert(d.toSeq == Seq(6, 7, 3, 4, 5, 8, 1, 2))   // 8, 1, 2
+        assert(d.toSeq == Seq(6, 7, 3, 4, 5, 8, 1, 2)) // 8, 1, 2
       }
       "overlapping slice move left 3" in {
         val d = c.moveSliceTo(7, 10, 4)
-        assert(d.toSeq == Seq(6, 7, 3, 4, 8, 1, 2, 5))   // 8, 1, 2
+        assert(d.toSeq == Seq(6, 7, 3, 4, 8, 1, 2, 5)) // 8, 1, 2
       }
       "overlapping slice move left 4" in {
         val d = c.moveSliceTo(7, 10, 3)
-        assert(d.toSeq == Seq(6, 7, 3, 8, 1, 2, 4, 5))   // 8, 1, 2
+        assert(d.toSeq == Seq(6, 7, 3, 8, 1, 2, 4, 5)) // 8, 1, 2
       }
 
       "move slice from left-shifted array to the same place" in {
@@ -530,7 +524,7 @@ class CircularArraySpec extends AnyFreeSpec {
         val e = d.moveSliceTo(2, 5, 2)
         assert(e.toSeq == Seq(8, 1, 2, 3, 4, 5, 6, 7))
       }
-/*
+      /*
       "to in second cycle" in {
         val d = c.moveSliceTo(2, 13, 3)
         assert(d.toSeq == Seq(1, 2, 6, 3, 4, 5, 7, 8))
@@ -539,7 +533,7 @@ class CircularArraySpec extends AnyFreeSpec {
         val d = c.moveSliceTo(-6, 5, 3)
         assert(d.toSeq == Seq(1, 2, 6, 3, 4, 5, 7, 8))
       }
-*/
+       */
     }
   }
 }
